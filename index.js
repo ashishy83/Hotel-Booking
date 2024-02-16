@@ -12,7 +12,9 @@ const userRoute = require('./Routes/userRoute');
 
 app.use(cors({origin:'*',credentials:true})); //enable CORS
 app.use('/users',userRoute); 
-
+app.use('/',(req,res)=>{
+    res.send("Welcome to MY SITE")
+})
 
 app.listen(port,async ()=>{
     try {
