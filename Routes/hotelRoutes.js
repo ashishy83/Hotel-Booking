@@ -4,8 +4,8 @@ const hotelController = require('../Controller/hotelController');
 
 router.post('/hotels/addData',hotelController.addhotelsData);
 
-router.get('/hotels/allHotels',hotelController.getAllhotels);
-router.get('/hotels/:id',hotelController.gethotelsByID);
+router.get('/allHotels',hotelController.getAllhotels);
+router.get('/:id',hotelController.gethotelsByID);
 
 module.exports = router;
  

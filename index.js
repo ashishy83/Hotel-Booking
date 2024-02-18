@@ -15,8 +15,8 @@ app.use(cors({ origin: "*", credentials: true })); //enable CORS
 app.use("/", (req, res) => {
   res.send("Welcome to MY SITE");
 });
-app.use("/users", userRoute);
-app.use('/v1',hotelRoute);
+app.use("/v1/users", userRoute);
+app.use('/v1/hotels',hotelRoute);
 
 
 app.listen(PORT, async () => {

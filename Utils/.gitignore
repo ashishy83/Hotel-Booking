@@ -1,6 +1,6 @@
 
 !.gitignore
-node_modules/
+node_modules
 *.env*
 npm-debug.log
 package-lock.json

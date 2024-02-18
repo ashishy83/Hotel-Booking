@@ -13,7 +13,7 @@ const addhotelsData = async (req, res) => {
 
   const getAllhotels = async (req, res) => {
     try {
-      const data = await Hotels.findOne({});
+      const data = await Hotels.find({});
       res.json({
         details: data,
         status: 200,
@@ -28,9 +28,9 @@ const addhotelsData = async (req, res) => {
 
   const gethotelsByID = async (req, res) => {
     try {
-      const id = req.params.id;
+      const id = parseInt(req.params.id);
       if (id) {
-        const data = await Hotels.findById({ id });
+        const data = await Hotels.findOne({ id });
         res.json({
           details: data,
           status: 200,
