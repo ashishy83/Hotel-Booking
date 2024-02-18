@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const config = require("../config");
+require('dotenv').config()
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -28,7 +28,7 @@ const register = async (req, res) => {
     message: "User has been created succesfully.",
     User: resObject,
   });
-  const token = jwt.sign(resObject, config.secret_key);
+  const token = jwt.sign(resObject, process.env.SECRET_KEY);
   res.cookie("hotel", 1234, { maxAge: 99999, httpOnly: true });
   res.json(resObject);
   console.log("Token => ", token);
