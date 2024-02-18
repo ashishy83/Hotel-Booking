@@ -1,10 +1,12 @@
 const express = require('express');
-const route = express.Router();
 // Require controller modules.
-const {register} = require('../Controller/userController')
+const userController = require('../Controller/userController')
+const route = express.Router();
 
 
-route.post('/register',register);
+route.post('/register',userController.register);
+route.post('/login',userController.login);
+route.post('/resetPassword',userController.resetPassword);
 
 module.exports =  route; 
 
