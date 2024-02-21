@@ -8,15 +8,15 @@ const addhotelsData = async (req, res) => {
     res.send("Data added successfully.");
   } catch (error) {
     console.log("Error adding Data => ", error);
-    res.status(500).send("Error adding data to database");
+    res.status(500).send("Error adding data to database => ",error );
   }}
 
   const getAllhotels = async (req, res) => {
     try {
       const data = await Hotels.find({});
-      res.json({
+      res.status(200).send({
         details: data,
-        status: 200,
+        // status: 200,
       });
     } catch (error) {
       console.log("Error fetching data => ", error);

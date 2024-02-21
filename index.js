@@ -14,11 +14,11 @@ app.use(express.json());
 app.use(cors({ origin: "*", credentials: true })); //enable CORS
 
 
+app.use("/users", userRoute);
+app.use('/hotels',hotelRoute);
 app.use("/", (req, res) => {
   res.send("Welcome to MY SITE");
 });
-app.use("/users", userRoute);
-app.use('/hotels',hotelRoute);
 
 
 app.listen(port, async () => {
