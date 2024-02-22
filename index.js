@@ -11,14 +11,16 @@ const port = process.env.PORT
 const hotelRoute = require('./Routes/hotelRoutes');
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "*", credentials: true })); //enable CORS
 
 
 app.use("/user", userRoute);
 app.use('/hotels',hotelRoute);
-app.use("/", (req, res) => {
-  res.send("Welcome to MY SITE");
-});
+// app.use("/", (req, res) => {
+//   res.send("Welcome to MY SITE");
+// });
 
 
 app.listen(port, async () => {

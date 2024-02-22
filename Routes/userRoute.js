@@ -5,7 +5,7 @@ const route = express.Router();
 
 
 route.post('/register',userController.register);
-route.get('/login',userController.login);
+route.post('/login',userController.login);
 route.post('/resetPassword',userController.resetPassword);
 
 module.exports =  route; 
