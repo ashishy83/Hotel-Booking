@@ -1,9 +1,9 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const saltRounds = 10;
+const config = require("../config.js");
 require("dotenv").config();
-
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -13,7 +13,7 @@ const register = async (req, res) => {
 
     if (existingUser) {
       // User already exists, send a response indicating that
-      return res.status(200).send({
+      return res.status(409).send({
         message: "User already exists! Please login.",
         User: existingUser,
       });
@@ -103,7 +103,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
-
+    console.log(req.body);
     if (!existingUser) {
       return res.status(401).json({
         message: "User is not registered. Please try registering.",
@@ -113,22 +113,31 @@ const login = async (req, res) => {
     const hashedPassword = existingUser.password;
     const isMatch = await bcrypt.compare(password, hashedPassword);
 
-    if (isMatch) {
-      const token = jwt.sign(
-        { email: existingUser.email },
-        config.secret_key,
-        { expiresIn: '1h' } // Token expires in 1 hour
-      );
-      res.cookie("hotelbooking", token);
-      return res.status(200).json({
-        token: token,
-        message: "Logged in successfully.",
-      });
-    } else {
+    if (!isMatch) {
       return res.status(401).json({
         message: "Incorrect Password!",
       });
     }
+
+    const token = jwt.sign(
+      { email: existingUser.email },
+      config.secret_key,
+      { expiresIn: "1h" } // Token expires in 1 hour
+    );
+    // res.cookie("hotelbooking", token);
+    // return res.status(200).json({
+    //   token: token,
+    //   message: "Logged in successfully.",
+    // });
+    return res
+      .cookie("auth-token", token, {
+        maxAge: 1000 * 60 * 60 * 24 ,
+        sameSite: "lax",
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+      })
+      .status(200)
+      .json({ message: "Login successful", data: { email, token } });
   } catch (error) {
     console.error("Error during login:", error.message);
     return res.status(500).json({
@@ -137,7 +146,6 @@ const login = async (req, res) => {
     });
   }
 };
-
 
 //reset password
 
